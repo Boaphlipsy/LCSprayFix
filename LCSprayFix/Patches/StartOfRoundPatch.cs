@@ -21,6 +21,8 @@ namespace LCSprayFix.Patches
         {
             foreach (GameObject decal in SprayPaintItem.sprayPaintDecals)
             {
+                if (decal == null) continue;
+
                 decal.SetActive(false);
             }
         }
