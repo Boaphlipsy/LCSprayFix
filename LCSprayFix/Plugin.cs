@@ -23,6 +23,7 @@ namespace LCSprayFix
 
             harmony.PatchAll(typeof(LCSprayFix));
             harmony.PatchAll(typeof(StartMatchLeverPatch));
+            harmony.PatchAll(typeof(StartOfRoundPatch));
 
             Logger.LogInfo($"I have Loaded.");
         }
