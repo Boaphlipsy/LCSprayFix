@@ -106,3 +106,4 @@ msbuild.wrn
 
 # Other
 */Properties/
+.thunderstore/
