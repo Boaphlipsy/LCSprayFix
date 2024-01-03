@@ -4,6 +4,6 @@
     {
         public const string Guid = "Spltiface.LCSprayFix";
         public const string Name = "LCSprayFix";
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.2";
     }
 }
