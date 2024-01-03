@@ -11,6 +11,6 @@ This mod will just remove all spray marks after leaving a moon. Will also remove
 
 ### 1.0.1
 - Hopefully actually fixed the issue  
-- 
+
 ### 1.0.0
 - Initial Release  
