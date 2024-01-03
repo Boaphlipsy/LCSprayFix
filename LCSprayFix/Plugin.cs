@@ -22,9 +22,9 @@ namespace LCSprayFix
             Logger = base.Logger;
 
             harmony.PatchAll(typeof(LCSprayFix));
-            harmony.PatchAll(typeof(StartOfRoundPatch));
+            harmony.PatchAll(typeof(StartMatchLeverPatch));
 
-            Logger.LogInfo($"{PluginData.Name} {PluginData.Version} has loaded.");
+            Logger.LogInfo($"I have Loaded.");
         }
     }
 }

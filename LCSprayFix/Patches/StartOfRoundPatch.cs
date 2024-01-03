@@ -4,17 +4,14 @@ using UnityEngine;
 
 namespace LCSprayFix.Patches
 {
-    [HarmonyPatch(typeof(StartOfRound))]
-    public class StartOfRoundPatch
+    [HarmonyPatch(typeof(StartMatchLever))]
+    public class StartMatchLeverPatch
     {
-        [HarmonyPrefix]
-        //[HarmonyPatch(nameof(StartOfRound.EndOfGame))]
-        [HarmonyPatch("EndOfGame")]
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(StartMatchLever.EndGame))]
         private static void SprayPaintPatch()
         {
-            LCSprayFix.Instance.Logger.LogInfo("Removing spray decals.");
             RemoveAllPaint();
-            LCSprayFix.Instance.Logger.LogInfo("Removed spray decals.");
         }
 
         private static void RemoveAllPaint()
@@ -24,6 +21,7 @@ namespace LCSprayFix.Patches
                 if (decal == null) continue;
 
                 decal.SetActive(false);
+                Object.Destroy(decal);
             }
         }
     }
