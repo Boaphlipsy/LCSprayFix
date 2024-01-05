@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
 
 
@@ -26,16 +27,60 @@ namespace LCSprayFix.Patches
         }
     }
 
+    [HarmonyPatch(typeof(SprayPaintItem))]
+    public class SprayPaintItemPatch
+    {
+        [HarmonyPostfix]
+        [HarmonyPatch("AddSprayPaintLocal")]
+        private static void AddSprayPaintLocalPatch()
+        {
+            SprayCanFix.UpdatePaintToRemove();
+        }
+    }
+
     public class SprayCanFix
     {
+        private static readonly HashSet<GameObject> allSprayDecals = new HashSet<GameObject>();
+
+        public static void UpdatePaintToRemove()
+        {
+            if (SprayPaintItem.sprayPaintDecals.Count <= 0) return;
+
+            allSprayDecals.Add(SprayPaintItem.sprayPaintDecals[SprayPaintItem.sprayPaintDecalsIndex]);
+        }
+
         public static void RemoveAllPaint()
         {
-            foreach (GameObject decal in SprayPaintItem.sprayPaintDecals)
-            {
-                if (decal == null) continue;
+            if (LCSprayFix.Instance.Config.DEV_MODE)
+                LCSprayFix.Instance.Logger.LogInfo($"Removing all spray");
 
-                decal.SetActive(false);
+            int skippedNull = 0;
+            int removed = 0;
+            int wasActive = 0;
+            foreach(var decal in allSprayDecals)
+            {
+                if (decal == null)
+                {
+                    skippedNull++;
+                    continue;
+                }
+
+                if (decal.activeSelf)
+                {
+                    wasActive++;
+                    decal.SetActive(false);
+                }
+
+                removed++;
                 Object.Destroy(decal);
+            }
+
+            if (LCSprayFix.Instance.Config.DEV_MODE)
+            {
+                LCSprayFix.Instance.Logger.LogInfo($"Total spray to delete: {allSprayDecals.Count}");
+                LCSprayFix.Instance.Logger.LogInfo($"Total spray removed: {removed}");
+                LCSprayFix.Instance.Logger.LogInfo($"Total null spray skipped: {skippedNull}");
+                LCSprayFix.Instance.Logger.LogInfo($"Total spray was active: {wasActive}");
             }
         }
     }
