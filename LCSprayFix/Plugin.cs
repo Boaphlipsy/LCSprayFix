@@ -28,8 +28,9 @@ namespace LCSprayFix
             harmony.PatchAll(typeof(StartMatchLeverPatch));
             harmony.PatchAll(typeof(StartOfRoundPatch));
             harmony.PatchAll(typeof(SprayPaintItemPatch));
+            harmony.PatchAll(typeof(GameNetworkManagerPatch));
 
-            Logger.LogInfo($"I have Loaded.");
+            Logger.LogInfo($"I have loaded.");
         }
     }
 }

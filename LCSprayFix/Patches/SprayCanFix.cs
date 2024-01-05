@@ -38,6 +38,17 @@ namespace LCSprayFix.Patches
         }
     }
 
+    [HarmonyPatch(typeof(GameNetworkManager))]
+    public class GameNetworkManagerPatch
+    {
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(GameNetworkManager.Disconnect))]
+        private static void DisconnectPatch()
+        {
+            SprayCanFix.ClearPaintToRemove();
+        }
+    }
+
     public class SprayCanFix
     {
         private static readonly HashSet<GameObject> allSprayDecals = new HashSet<GameObject>();
@@ -47,6 +58,11 @@ namespace LCSprayFix.Patches
             if (SprayPaintItem.sprayPaintDecals.Count <= 0) return;
 
             allSprayDecals.Add(SprayPaintItem.sprayPaintDecals[SprayPaintItem.sprayPaintDecalsIndex]);
+        }
+
+        public static void ClearPaintToRemove()
+        {
+            allSprayDecals.Clear();
         }
 
         public static void RemoveAllPaint()
