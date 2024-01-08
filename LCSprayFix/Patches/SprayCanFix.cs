@@ -25,6 +25,13 @@ namespace LCSprayFix.Patches
         {
             SprayCanFix.RemoveAllPaint();
         }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(StartOfRound.EndGameServerRpc))]
+        private static void EndGameServerRpcPatch()
+        {
+            SprayCanFix.RemoveAllPaint();
+        }
     }
 
     [HarmonyPatch(typeof(SprayPaintItem))]
